@@ -13,7 +13,7 @@ function checkFunctionPath() {
 }
 
 function usageMessage() {
-  process.stdout.write(`Usage: program req1 [cat /usr/share/dict/words | node word-search.j]\n`);
+  process.stdout.write(`Usage: program req1 [cat /usr/share/dict/words | node word-search.js]\n`);
   process.exit(1);
 }
 ///////////////////////////////////////////////
@@ -21,7 +21,6 @@ function usageMessage() {
 
 ///////////////////////////////////////////////
 //Print out the word list with the  'cat /usr/share/dict/words | node word-search.j' command
-let chunkList = "";
 process.stdin.setEncoding('utf8');
 
 process.stdin.on('readable', () => {
@@ -30,11 +29,11 @@ process.stdin.on('readable', () => {
 
   let chunk = process.stdin.read();
   //If chunk is null, no data is being piped in
-  if (chunk !== null) {
+  if (chunk === null && arg.length === 0 ) {
+    usageMessage();
+  } else {
     //Continue process.stdin
     process.stdout.write(`data: ${chunk}`);
-  } else {
-    usageMessage();
   }
 
 });
