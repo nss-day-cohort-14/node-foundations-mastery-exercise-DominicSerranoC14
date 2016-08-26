@@ -12,6 +12,6 @@ module.exports = Transform({
     i <= 9 ? cb(null, buffer.toString().toLowerCase()): cb();
     //If 'i'=== 10 end the program, if not continue running
     //This is to end process.stdin usage
-    i === 10 ? process.exit(): null;
+    i === 10 ? process.exit(1): null;
   }
 });

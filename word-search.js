@@ -8,22 +8,35 @@ const transformer = require('./limit-ten.js');
 
 ///////////////////////////////////////////////
 //Usage message
-arg.length > 1 || arg.length === 0 ? usageMessage(): null;
+function checkFunctionPath() {
+  arg.length > 1 ? usageMessage(): null;
+}
 
 function usageMessage() {
-  process.stdout.write(`Usage: program [string] [cat /usr/share/dict/words | node word-search.j]\n`);
-  process.exit();
+  process.stdout.write(`Usage: program req1 [cat /usr/share/dict/words | node word-search.j]\n`);
+  process.exit(1);
 }
 ///////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////
 //Print out the word list with the  'cat /usr/share/dict/words | node word-search.j' command
+let chunkList = "";
 process.stdin.setEncoding('utf8');
 
 process.stdin.on('readable', () => {
+  //If arg is zero, run a validator function
+  arg.length === 0 ? checkFunctionPath(): true;
+
   let chunk = process.stdin.read();
-  let i = 0;
+  //If chunk is null, no data is being piped in
+  if (chunk !== null) {
+    //Continue process.stdin
+    process.stdout.write(`data: ${chunk}`);
+  } else {
+    usageMessage();
+  }
+
 });
 ///////////////////////////////////////////////
 
